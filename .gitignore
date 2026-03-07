@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+*/node_modules/
+package-lock.json
+
+# Next.js
+.next/
+*/.next/
+out/
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Contract artifacts
+artifacts/
+cache/
+typechain-types/
+deployments.json
+
+# Environments
+.env
+.env.local
+.env.production
+*.env
+
+# Hardhat
+cache/
+artifacts/

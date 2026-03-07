@@ -1,0 +1,40 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "E:\\000VSCODE PROJECT MULAI DARI DESEMBER 2025\\DEADMANSWITCH AI\\contracts\\InheritanceVault.sol": {
+      "lastModificationDate": 1772886452569,
+      "contentHash": "d42e09ecc11bc6b950b9b8bc610c7116",
+      "sourceName": "contracts/InheritanceVault.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "InheritanceVault"
+      ]
+    }
+  }
+}
