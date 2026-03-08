@@ -20,5 +20,6 @@ export const CONTRACT_ABI = [
 ];
 
 export const getContract = async (signerOrProvider: ethers.Signer | ethers.Provider) => {
-    return new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signerOrProvider);
+    // ethers.getAddress() normalizes to EIP-55 checksum so ethers never treats it as ENS name
+    return new ethers.Contract(ethers.getAddress(CONTRACT_ADDRESS), CONTRACT_ABI, signerOrProvider);
 };

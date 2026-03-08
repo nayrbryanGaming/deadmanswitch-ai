@@ -1,14 +1,14 @@
-import { BrowserProvider, JsonRpcSigner } from 'ethers';
+import { BrowserProvider, JsonRpcSigner, getAddress } from 'ethers';
 import { useMemo } from 'react';
 import type { Account, Chain, Client, Transport } from 'viem';
 import { type Config, useConnectorClient } from 'wagmi';
 
 export function clientToSigner(client: Client<Transport, Chain, Account>) {
     const { account, chain, transport } = client;
-    // Use chain.id (not a custom object) so ethers uses its built-in registry
-    // which handles Base Sepolia's lack of ENS gracefully (no UNSUPPORTED_OPERATION error)
+    // Pass chain.id (not custom object) — avoids ENS UNSUPPORTED_OPERATION on Base Sepolia.
+    // getAddress() force-checksums the address so ethers never attempts ENS resolution on it.
     const provider = new BrowserProvider(transport, chain.id);
-    const signer = new JsonRpcSigner(provider, account.address);
+    const signer = new JsonRpcSigner(provider, getAddress(account.address));
     return signer;
 }
 
