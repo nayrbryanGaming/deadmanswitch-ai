@@ -6,10 +6,10 @@ import * as path from "path";
 async function simulate() {
     console.log("\n🚀 DEADMANSWITCH AI PROTOCOL SIMULATION STARTING...");
 
-    // Configuration for local Hardhat node
-    const RPC_URL = "http://127.0.0.1:8545";
-    const OWNER_PRIVATE_KEY = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
-    const AUTOMATION_PRIVATE_KEY = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
+    // Configuration (prefers .env values)
+    const RPC_URL = process.env.BASE_SEPOLIA_RPC_URL || "http://127.0.0.1:8545";
+    const OWNER_PRIVATE_KEY = process.env.PRIVATE_KEY || "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+    const AUTOMATION_PRIVATE_KEY = process.env.PRIVATE_KEY || "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
     const HEIR_ADDRESS = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 
     // Read deployment info
