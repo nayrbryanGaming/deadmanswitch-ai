@@ -72,11 +72,11 @@ export const VaultStatus = () => {
     );
 
     return (
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl overflow-hidden relative">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 shadow-xl overflow-hidden relative">
             <div className="absolute top-0 right-0 p-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-ping"></div>
             </div>
-            <h2 className="text-xl font-bold mb-4 text-white">Vault Analytics</h2>
+            <h2 className="text-base sm:text-xl font-bold mb-3 sm:mb-4 text-white">Vault Analytics</h2>
             <div className="space-y-4">
                 <div className="flex justify-between items-center border-b border-white/10 pb-2">
                     <span className="text-gray-400 text-sm">Owner</span>
@@ -97,8 +97,8 @@ export const VaultStatus = () => {
                     <span className="text-white text-sm">{formatThreshold(status.threshold)}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                    <span className="text-purple-400 font-bold">Total Assets</span>
-                    <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-green-400">
+                    <span className="text-purple-400 font-bold text-sm sm:text-base">Total Assets</span>
+                    <span className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-green-400">
                         {status.balance} ETH
                     </span>
                 </div>

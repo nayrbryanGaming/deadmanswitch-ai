@@ -61,8 +61,8 @@ export const RegisterHeir = () => {
     };
 
     return (
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl">
-            <h2 className="text-xl font-bold mb-4 text-white">Register Beneficiary</h2>
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 shadow-xl">
+            <h2 className="text-base sm:text-xl font-bold mb-3 sm:mb-4 text-white">Register Beneficiary</h2>
             <div className="space-y-4">
                 <div>
                     <label className="block text-sm text-gray-400 mb-1">Heir Address</label>
@@ -93,7 +93,7 @@ export const RegisterHeir = () => {
                                 <button
                                     key={u}
                                     onClick={() => setUnit(u)}
-                                    className={`flex-1 py-3 text-sm font-semibold transition-colors ${
+                                    className={`flex-1 py-2 sm:py-3 text-xs sm:text-sm font-semibold transition-colors ${
                                         unit === u
                                             ? 'bg-purple-600 text-white'
                                             : 'bg-black/40 text-gray-400 hover:bg-white/10'
