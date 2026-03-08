@@ -34,16 +34,16 @@ export const DepositFunds = () => {
     };
 
     return (
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 shadow-xl">
-            <h2 className="text-base sm:text-xl font-bold mb-3 sm:mb-4 text-white">Deposit ETH</h2>
-            <div className="space-y-4">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-5 border border-white/20 shadow-xl">
+            <h2 className="text-sm font-bold mb-3 text-white tracking-wide uppercase opacity-80">Deposit ETH</h2>
+            <div className="space-y-3">
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">Amount (ETH)</label>
+                    <label className="block text-xs text-gray-400 mb-1">Amount (ETH)</label>
                     <input
                         type="number"
                         step="0.01"
                         placeholder="0.5"
-                        className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+                        className="w-full bg-black/40 border border-white/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                     />
@@ -51,7 +51,7 @@ export const DepositFunds = () => {
                 <button
                     onClick={handleDeposit}
                     disabled={loading}
-                    className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white font-bold py-3 rounded-lg transition-colors"
+                    className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white text-sm font-bold py-2 rounded-lg transition-colors"
                 >
                     {loading ? "Processing..." : "Deposit Funds"}
                 </button>

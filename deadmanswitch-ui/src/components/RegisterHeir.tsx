@@ -14,9 +14,9 @@ const UNIT_SECONDS: Record<Unit, number> = {
 };
 
 const UNIT_LABELS: Record<Unit, string> = {
-    days: 'Day(s)',
-    weeks: 'Week(s)',
-    months: 'Month(s)',
+    days: 'Days',
+    weeks: 'Weeks',
+    months: 'Months',
 };
 
 function toSeconds(value: number, unit: Unit): number {
@@ -61,22 +61,22 @@ export const RegisterHeir = () => {
     };
 
     return (
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 shadow-xl">
-            <h2 className="text-base sm:text-xl font-bold mb-3 sm:mb-4 text-white">Register Beneficiary</h2>
-            <div className="space-y-4">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-5 border border-white/20 shadow-xl">
+            <h2 className="text-sm font-bold mb-3 text-white tracking-wide uppercase opacity-80">Register Beneficiary</h2>
+            <div className="space-y-3">
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">Heir Address</label>
+                    <label className="block text-xs text-gray-400 mb-1">Heir Address</label>
                     <input
                         type="text"
                         placeholder="0x..."
-                        className="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                        className="w-full bg-black/40 border border-white/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
                         value={heir}
                         onChange={(e) => setHeir(e.target.value)}
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-400 mb-1">Inactivity Threshold</label>
+                    <label className="block text-xs text-gray-400 mb-1">Inactivity Threshold</label>
                     <div className="flex gap-2">
                         <input
                             type="number"
@@ -84,7 +84,7 @@ export const RegisterHeir = () => {
                             step={1}
                             aria-label="Inactivity threshold amount"
                             title="Inactivity threshold amount"
-                            className="w-24 bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                            className="w-16 bg-black/40 border border-white/20 rounded-lg px-2 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
                             value={amount}
                             onChange={(e) => setAmount(Math.max(1, parseInt(e.target.value) || 1))}
                         />
@@ -93,7 +93,7 @@ export const RegisterHeir = () => {
                                 <button
                                     key={u}
                                     onClick={() => setUnit(u)}
-                                    className={`flex-1 py-2 sm:py-3 text-xs sm:text-sm font-semibold transition-colors ${
+                                    className={`flex-1 py-2 text-xs font-semibold transition-colors ${
                                         unit === u
                                             ? 'bg-purple-600 text-white'
                                             : 'bg-black/40 text-gray-400 hover:bg-white/10'
@@ -104,15 +104,15 @@ export const RegisterHeir = () => {
                             ))}
                         </div>
                     </div>
-                    <p className="mt-2 text-xs text-gray-500">
-                        = {thresholdSeconds.toLocaleString()} seconds — switch triggers after {amount} {unit} of inactivity
+                    <p className="mt-1 text-xs text-gray-500">
+                        {amount} {unit} = {thresholdSeconds.toLocaleString()}s
                     </p>
                 </div>
 
                 <button
                     onClick={handleRegister}
                     disabled={loading}
-                    className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white font-bold py-3 rounded-lg transition-colors"
+                    className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white text-sm font-bold py-2 rounded-lg transition-colors"
                 >
                     {loading ? 'Registering...' : 'Register Heir'}
                 </button>

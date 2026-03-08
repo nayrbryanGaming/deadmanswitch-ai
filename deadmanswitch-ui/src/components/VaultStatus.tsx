@@ -52,9 +52,9 @@ export const VaultStatus = () => {
     }, [provider]);
 
     if (status === "ERROR") return (
-        <div className="bg-red-900/20 rounded-2xl p-6 border border-red-500/50">
-            <h2 className="text-xl font-bold mb-2 text-red-400">Connect Wallet</h2>
-            <p className="text-sm text-red-300/80">
+        <div className="bg-red-900/20 rounded-2xl p-4 border border-red-500/50">
+            <h2 className="text-sm font-bold mb-1 text-red-400 tracking-wide uppercase">Connect Wallet</h2>
+            <p className="text-xs text-red-300/80">
                 Please connect your wallet and switch to <span className="text-white font-semibold">Base Sepolia</span> network to view vault status.
             </p>
         </div>
@@ -72,33 +72,33 @@ export const VaultStatus = () => {
     );
 
     return (
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/20 shadow-xl overflow-hidden relative">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-5 border border-white/20 shadow-xl overflow-hidden relative">
             <div className="absolute top-0 right-0 p-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-ping"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-ping"></div>
             </div>
-            <h2 className="text-base sm:text-xl font-bold mb-3 sm:mb-4 text-white">Vault Analytics</h2>
-            <div className="space-y-4">
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span className="text-gray-400 text-sm">Owner</span>
+            <h2 className="text-sm font-bold mb-3 text-white tracking-wide uppercase opacity-80">Vault Analytics</h2>
+            <div className="space-y-2">
+                <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
+                    <span className="text-gray-400 text-xs">Owner</span>
                     <span className="text-white text-xs font-mono">{status.owner.slice(0, 6)}...{status.owner.slice(-4)}</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span className="text-gray-400 text-sm">Beneficiary</span>
+                <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
+                    <span className="text-gray-400 text-xs">Beneficiary</span>
                     <span className="text-white text-xs font-mono">
                         {status.heir === '0x0000000000000000000000000000000000000000' ? 'None Set' : `${status.heir.slice(0, 6)}...${status.heir.slice(-4)}`}
                     </span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span className="text-gray-400 text-sm">Last Active</span>
-                    <span className="text-white text-sm">{new Date(status.lastPing * 1000).toLocaleTimeString()}</span>
+                <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
+                    <span className="text-gray-400 text-xs">Last Active</span>
+                    <span className="text-white text-xs">{new Date(status.lastPing * 1000).toLocaleTimeString()}</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span className="text-gray-400 text-sm">Threshold</span>
-                    <span className="text-white text-sm">{formatThreshold(status.threshold)}</span>
+                <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
+                    <span className="text-gray-400 text-xs">Threshold</span>
+                    <span className="text-white text-xs">{formatThreshold(status.threshold)}</span>
                 </div>
-                <div className="flex justify-between items-center pt-2">
-                    <span className="text-purple-400 font-bold text-sm sm:text-base">Total Assets</span>
-                    <span className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-green-400">
+                <div className="flex justify-between items-center pt-1.5">
+                    <span className="text-purple-400 font-bold text-xs">Total Assets</span>
+                    <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-green-400">
                         {status.balance} ETH
                     </span>
                 </div>

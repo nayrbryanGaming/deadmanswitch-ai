@@ -27,10 +27,10 @@ export default function Home() {
 
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-12 relative z-10">
         <div className="mb-6 sm:mb-12 text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl sm:text-5xl font-extrabold mb-3 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold mb-2 tracking-tight">
             Autonomous Crypto <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-400 animate-gradient">Inheritance</span>
           </h2>
-          <p className="text-gray-400 text-sm sm:text-lg">
+          <p className="text-gray-400 text-xs sm:text-base">
             Secure your legacy. Automated off-chain monitoring and on-chain execution via Chainlink CRE.
           </p>
         </div>
@@ -44,11 +44,11 @@ export default function Home() {
 
             <div className="bg-gradient-to-r from-purple-900/20 to-transparent p-1 rounded-2xl shadow-2xl">
               <div className="bg-[#0f0f12]/90 backdrop-blur-xl rounded-2xl p-4 sm:p-8 border border-white/5">
-                <h3 className="text-base sm:text-xl font-bold mb-3 sm:mb-4 flex items-center gap-2">
+                <h3 className="text-sm font-bold mb-3 flex items-center gap-2 uppercase tracking-wide opacity-80">
                   <span className="w-2 h-2 rounded-full bg-purple-500"></span>
                   How it works
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-sm text-gray-400">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-gray-400">
                   <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                     <div className="text-purple-400 font-bold mb-2">01. Register</div>
                     Address your beneficiary and set an inactivity threshold (e.g., 6 months).
