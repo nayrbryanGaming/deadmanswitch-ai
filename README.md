@@ -2,7 +2,7 @@
 
 **DEADMANSWITCH AI** is a production-quality protocol demonstrating how Chainlink Runtime Environment (CRE) can automate crypto inheritance using off-chain monitoring and on-chain execution.
 
-## 🏗 Architecture
+## Architecture
 
 ```mermaid
 graph TD
@@ -13,45 +13,94 @@ graph TD
     Vault -->|Transfer Funds| Heir[Beneficiary / Heir]
 ```
 
-## 🖥 Frontend Dashboard
+## Frontend Dashboard
 The project includes a premium **Web3 Dashboard** located in the `deadmanswitch-ui/` directory.
 
-## 🚀 Live Deployment Details (Base Sepolia)
-The protocol is currently deployed and live:
-- **Network**: Base Sepolia
-- **Contract Address**: `0x397714f3a73F14DFC5751B85465de221f63Cdb5e`
-- **Explorer**: [BaseScan](https://sepolia.basescan.org/address/0x397714f3a73F14DFC5751B85465de221f63Cdb5e)
+## Live Deployment (Base Sepolia)
+- **Network**: Base Sepolia (Chain ID: 84532)
+- **Contract Address**: `0x7aD44599A09656D0430D939510c1991A85d8fb73`
+- **Explorer**: [BaseScan](https://sepolia.basescan.org/address/0x7aD44599A09656D0430D939510c1991A85d8fb73)
 
-## 🛠 Installation & Local Setup
+## Installation & Local Setup
 
 ### Prerequisites
-- Node.js & npm
-- Injected Wallet (MetaMask)
+- Node.js v18+ & npm
+- MetaMask or similar injected wallet
 
 ### Installation
 ```bash
+# Root project (smart contracts, backend)
 npm install
+
+# Frontend
 cd deadmanswitch-ui && npm install
 ```
 
-## 🤖 Running the Simulation
-To simulate the DeadmanSwitch lifecycle locally:
-1. Ensure your `.env` has the correct `PRIVATE_KEY`.
-2. Run:
-```bash
-npx ts-node src/monitor.ts
+### Environment Variables
+Create a `.env` file in the project root:
+```
+PRIVATE_KEY=your_wallet_private_key
+SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
 ```
 
-## 🌐 Vercel Deployment
-To deploy the dashboard to Vercel, set the following environment variables:
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`: Your WalletConnect ID.
-- `NEXT_PUBLIC_VAULT_ADDRESS`: `0x397714f3a73F14DFC5751B85465de221f63Cdb5e` (Live Base Sepolia Contract)
+**Never commit `.env` to git.**
 
-## 📜 Security & Reliability
-- [x] **Owner-only Access Control**: Verified via `onlyOwner`.
-- [x] **Automation-only Trigger**: Verified via `onlyAutomation`.
-- [x] **Safe ETH Transfer**: Implements `call` pattern.
-- [x] **SSR Safe**: Next.js hydration mismatch issues resolved.
+## Smart Contract
+
+### Compile
+```bash
+npx hardhat compile
+```
+
+### Deploy to Base Sepolia
+```bash
+npx hardhat run scripts/deploy.ts --network baseSepolia
+```
+
+### Deploy to Sepolia
+```bash
+npx hardhat run scripts/deploy.ts --network sepolia
+```
+
+### Verify on Etherscan
+```bash
+npx hardhat verify --network baseSepolia CONTRACT_ADDRESS
+```
+
+## Running the Simulation
+To simulate the DeadmanSwitch lifecycle locally:
+1. Start a local Hardhat node: `npx hardhat node`
+2. Deploy locally: `npx hardhat run scripts/deploy.ts --network localhost`
+3. Run simulation: `npx ts-node src/monitor.ts`
+
+## Frontend Development
+
+```bash
+cd deadmanswitch-ui
+npm run dev    # Start dev server at http://localhost:3000
+npm run build  # Build for production
+```
+
+## Vercel Deployment
+Set the following environment variables in Vercel dashboard:
+- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`: Your WalletConnect project ID
+- `NEXT_PUBLIC_VAULT_ADDRESS`: Deployed contract address
+
+## Demo Flow
+1. Connect wallet (MetaMask on Base Sepolia)
+2. Register heir wallet address + set inactivity threshold
+3. Deposit ETH into the vault
+4. Ping "I'm Alive" to reset the timer
+5. View vault status (owner, heir, balance, last ping)
+
+## Security
+- [x] Owner-only access control (`onlyOwner` modifier)
+- [x] Automation-only inheritance trigger (`onlyAutomation` modifier)
+- [x] Reentrancy guard on `executeInheritance`
+- [x] Safe ETH transfer via `call` pattern
+- [x] Timestamp validation for inactivity threshold
+- [x] SSR-safe frontend (hydration mismatch resolved)
 
 ---
-**Hackathon submission code.** | Powered by Chainlink CRE.
+**Hackathon submission** | Powered by Chainlink CRE
