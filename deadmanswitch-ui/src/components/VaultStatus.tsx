@@ -3,7 +3,24 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { useEthersProvider } from '@/lib/hooks/useEthersProvider';
-import { getContract, CONTRACT_ADDRESS } from '@/lib/contract';
+import { getContract } from '@/lib/contract';
+
+function formatThreshold(seconds: number): string {
+    if (seconds === 0) return 'Not set';
+    const months = seconds / 2592000;
+    const weeks = seconds / 604800;
+    const days = seconds / 86400;
+    const hours = seconds / 3600;
+    if (months >= 1 && Number.isInteger(Math.round(months * 10) / 10))
+        return `${parseFloat(months.toFixed(1))} month${months !== 1 ? 's' : ''}`;
+    if (weeks >= 1 && days % 7 === 0)
+        return `${Math.round(weeks)} week${Math.round(weeks) !== 1 ? 's' : ''}`;
+    if (days >= 1 && seconds % 86400 === 0)
+        return `${Math.round(days)} day${Math.round(days) !== 1 ? 's' : ''}`;
+    if (hours >= 1)
+        return `${parseFloat(hours.toFixed(1))} hour${hours !== 1 ? 's' : ''}`;
+    return `${seconds} seconds`;
+}
 
 export const VaultStatus = () => {
     const [status, setStatus] = useState<any>(null);
@@ -36,9 +53,9 @@ export const VaultStatus = () => {
 
     if (status === "ERROR") return (
         <div className="bg-red-900/20 rounded-2xl p-6 border border-red-500/50">
-            <h2 className="text-xl font-bold mb-2 text-red-400">Connection Error</h2>
+            <h2 className="text-xl font-bold mb-2 text-red-400">Connect Wallet</h2>
             <p className="text-sm text-red-300/80">
-                Could not connect to the contract. Please check if your local Hardhat node is running and the contract is deployed.
+                Please connect your wallet and switch to <span className="text-white font-semibold">Base Sepolia</span> network to view vault status.
             </p>
         </div>
     );
@@ -77,7 +94,7 @@ export const VaultStatus = () => {
                 </div>
                 <div className="flex justify-between items-center border-b border-white/10 pb-2">
                     <span className="text-gray-400 text-sm">Threshold</span>
-                    <span className="text-white text-sm">{(status.threshold / 3600).toFixed(1)} hours</span>
+                    <span className="text-white text-sm">{formatThreshold(status.threshold)}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
                     <span className="text-purple-400 font-bold">Total Assets</span>
