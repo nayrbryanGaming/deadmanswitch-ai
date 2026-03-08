@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 import { runWorkflow } from "../cre/workflow";
-import { ethers } from "ethers";
+import { ethers, NonceManager } from "ethers";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -38,10 +38,11 @@ async function simulate() {
         throw new Error(`Unexpected chainId ${network.chainId}. Expected Base Sepolia (84532) or Sepolia (11155111). Aborting.`);
     }
 
-    const owner = new ethers.Wallet(OWNER_PRIVATE_KEY, provider);
+    const ownerWallet = new ethers.Wallet(OWNER_PRIVATE_KEY, provider);
+    const owner = new NonceManager(ownerWallet);
     const automation = new ethers.Wallet(AUTOMATION_PRIVATE_KEY, provider);
 
-    const ownerBal = await provider.getBalance(owner.address);
+    const ownerBal = await provider.getBalance(ownerWallet.address);
     console.log(`💳 Owner balance: ${ethers.formatEther(ownerBal)} ETH`);
 
     const abi = [
@@ -57,10 +58,10 @@ async function simulate() {
     const vault = new ethers.Contract(VAULT_ADDRESS, abi, owner);
 
     console.log("💎 1. User deposits funds...");
-    const depositTx = await vault.deposit({ value: ethers.parseEther("1.0") });
+    const depositTx = await vault.deposit({ value: ethers.parseEther("0.005") });
     const depositReceipt = await depositTx.wait();
     if (!depositReceipt || depositReceipt.status === 0) throw new Error("Deposit transaction reverted on-chain");
-    console.log(`✅ Deposit successful (1.0 ETH) | Gas used: ${depositReceipt.gasUsed} | Tx: ${depositTx.hash}`);
+    console.log(`✅ Deposit successful (0.005 ETH) | Gas used: ${depositReceipt.gasUsed} | Tx: ${depositTx.hash}`);
 
     console.log("👤 2. User registers heir (Threshold: 5 seconds)...");
     const regTx = await vault.registerHeir(HEIR_ADDRESS, 5);
@@ -78,7 +79,7 @@ async function simulate() {
     console.log(`⏳ 4. User stops pinging. Last activity at: ${new Date(Number(startPing) * 1000).toLocaleTimeString()}`);
     console.log("Waiting for inactivity threshold (6 seconds)...");
 
-    await new Promise(resolve => setTimeout(resolve, 6000));
+    await new Promise(resolve => setTimeout(resolve, 12000));
 
     console.log("🔍 5. Monitoring System detects inactivity...");
     await runWorkflow(VAULT_ADDRESS, RPC_URL, AUTOMATION_PRIVATE_KEY);

@@ -20,7 +20,7 @@ dotenv.config();
 const MAX_RETRIES          = 3;
 const BASE_RETRY_DELAY_MS  = 2_000;  // doubles each attempt
 const POLL_INTERVAL_MS     = 60_000; // watch-mode poll interval (60s)
-const TIMESTAMP_BUFFER_S   = 30;     // extra seconds buffer vs block timestamp lag
+const TIMESTAMP_BUFFER_S   = 5;      // extra seconds buffer vs block timestamp lag
 const MAX_GAS_PRICE_GWEI   = 50;     // refuse execution above this gas price
 
 // ── Minimal ABI for CRE workflow ───────────────────────────
