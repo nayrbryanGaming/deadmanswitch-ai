@@ -1,7 +1,10 @@
+import * as dotenv from "dotenv";
 import { runWorkflow } from "../cre/workflow";
 import { ethers } from "ethers";
 import * as fs from "fs";
 import * as path from "path";
+
+dotenv.config();
 
 async function simulate() {
     console.log("\n🚀 DEADMANSWITCH AI PROTOCOL SIMULATION STARTING...");
@@ -26,8 +29,20 @@ async function simulate() {
     console.log(`📡 Connected to Vault at: ${VAULT_ADDRESS}`);
 
     const provider = new ethers.JsonRpcProvider(RPC_URL);
+
+    // ── Verify network before any transaction ────────────────
+    const network = await provider.getNetwork();
+    console.log(`🌐 Network: ${network.name} (chainId: ${network.chainId})`);
+    const isLocal = RPC_URL.includes("127.0.0.1") || RPC_URL.includes("localhost");
+    if (!isLocal && network.chainId !== 84532n && network.chainId !== 11155111n) {
+        throw new Error(`Unexpected chainId ${network.chainId}. Expected Base Sepolia (84532) or Sepolia (11155111). Aborting.`);
+    }
+
     const owner = new ethers.Wallet(OWNER_PRIVATE_KEY, provider);
     const automation = new ethers.Wallet(AUTOMATION_PRIVATE_KEY, provider);
+
+    const ownerBal = await provider.getBalance(owner.address);
+    console.log(`💳 Owner balance: ${ethers.formatEther(ownerBal)} ETH`);
 
     const abi = [
         "function deposit() payable",
@@ -43,18 +58,21 @@ async function simulate() {
 
     console.log("💎 1. User deposits funds...");
     const depositTx = await vault.deposit({ value: ethers.parseEther("1.0") });
-    await depositTx.wait();
-    console.log("✅ Deposit successful (1.0 ETH)");
+    const depositReceipt = await depositTx.wait();
+    if (!depositReceipt || depositReceipt.status === 0) throw new Error("Deposit transaction reverted on-chain");
+    console.log(`✅ Deposit successful (1.0 ETH) | Gas used: ${depositReceipt.gasUsed} | Tx: ${depositTx.hash}`);
 
     console.log("👤 2. User registers heir (Threshold: 5 seconds)...");
     const regTx = await vault.registerHeir(HEIR_ADDRESS, 5);
-    await regTx.wait();
-    console.log(`✅ Heir registered: ${HEIR_ADDRESS}`);
+    const regReceipt = await regTx.wait();
+    if (!regReceipt || regReceipt.status === 0) throw new Error("registerHeir transaction reverted on-chain");
+    console.log(`✅ Heir registered: ${HEIR_ADDRESS} | Gas used: ${regReceipt.gasUsed}`);
 
     console.log("🤖 3. User sets automation registry...");
     const autoTx = await vault.setAutomation(automation.address);
-    await autoTx.wait();
-    console.log(`✅ Automation address set: ${automation.address}`);
+    const autoReceipt = await autoTx.wait();
+    if (!autoReceipt || autoReceipt.status === 0) throw new Error("setAutomation transaction reverted on-chain");
+    console.log(`✅ Automation address set: ${automation.address} | Gas used: ${autoReceipt.gasUsed}`);
 
     const startPing = await vault.lastPingTimestamp();
     console.log(`⏳ 4. User stops pinging. Last activity at: ${new Date(Number(startPing) * 1000).toLocaleTimeString()}`);
