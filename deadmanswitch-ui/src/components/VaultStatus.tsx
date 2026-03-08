@@ -22,8 +22,16 @@ function formatThreshold(seconds: number): string {
     return `${seconds} seconds`;
 }
 
+interface VaultData {
+    owner: string;
+    heir: string;
+    lastPing: number;
+    threshold: number;
+    balance: string;
+}
+
 export const VaultStatus = () => {
-    const [status, setStatus] = useState<any>(null);
+    const [status, setStatus] = useState<VaultData | 'ERROR' | null>(null);
     const provider = useEthersProvider();
 
     const fetchStatus = async () => {

@@ -2,13 +2,19 @@
 
 import { useState } from 'react';
 import { ethers } from 'ethers';
+import { useChainId, useAccount } from 'wagmi';
 import { useEthersSigner } from '@/lib/hooks/useEthersSigner';
 import { getContract } from '@/lib/contract';
+
+const BASE_SEPOLIA_ID = 84532;
 
 export const DepositFunds = () => {
     const [amount, setAmount] = useState('');
     const [loading, setLoading] = useState(false);
     const signer = useEthersSigner();
+    const chainId = useChainId();
+    const { isConnected } = useAccount();
+    const isWrongChain = isConnected && chainId !== BASE_SEPOLIA_ID;
 
     const handleDeposit = async () => {
         if (!signer || !amount) return;
@@ -48,12 +54,17 @@ export const DepositFunds = () => {
                         onChange={(e) => setAmount(e.target.value)}
                     />
                 </div>
+                {isWrongChain && (
+                    <p className="text-xs text-amber-400 bg-amber-400/10 border border-amber-400/30 rounded-lg px-3 py-2">
+                        ⚠ Switch to <strong>Base Sepolia</strong> network
+                    </p>
+                )}
                 <button
                     onClick={handleDeposit}
-                    disabled={loading}
-                    className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white text-sm font-bold py-2 rounded-lg transition-colors"
+                    disabled={loading || !isConnected || isWrongChain}
+                    className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm font-bold py-2 rounded-lg transition-colors"
                 >
-                    {loading ? "Processing..." : "Deposit Funds"}
+                    {loading ? "Processing..." : !isConnected ? "Connect Wallet" : isWrongChain ? "Wrong Network" : "Deposit Funds"}
                 </button>
             </div>
         </div>
