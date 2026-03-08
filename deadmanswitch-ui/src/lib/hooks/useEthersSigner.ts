@@ -5,12 +5,9 @@ import { type Config, useConnectorClient } from 'wagmi';
 
 export function clientToSigner(client: Client<Transport, Chain, Account>) {
     const { account, chain, transport } = client;
-    const network = {
-        chainId: chain.id,
-        name: chain.name,
-        ensAddress: chain.contracts?.ensRegistry?.address,
-    };
-    const provider = new BrowserProvider(transport, network);
+    // Use chain.id (not a custom object) so ethers uses its built-in registry
+    // which handles Base Sepolia's lack of ENS gracefully (no UNSUPPORTED_OPERATION error)
+    const provider = new BrowserProvider(transport, chain.id);
     const signer = new JsonRpcSigner(provider, account.address);
     return signer;
 }

@@ -5,19 +5,16 @@ import { type Config, useClient } from 'wagmi';
 
 export function clientToProvider(client: Client<Transport, Chain>) {
     const { chain, transport } = client;
-    const network = {
-        chainId: chain.id,
-        name: chain.name,
-        ensAddress: chain.contracts?.ensRegistry?.address,
-    };
+    // Use chain.id (not a custom object) so ethers uses its built-in registry
+    // which handles Base Sepolia's lack of ENS gracefully (no UNSUPPORTED_OPERATION error)
     if (transport.type === 'fallback') {
         const providers = (transport.transports as ReturnType<Transport>[]).map(
-            ({ value }) => new JsonRpcProvider(value?.url, network),
+            ({ value }) => new JsonRpcProvider(value?.url, chain.id),
         );
         if (providers.length === 1) return providers[0];
         return new FallbackProvider(providers);
     }
-    return new JsonRpcProvider(transport.url, network);
+    return new JsonRpcProvider(transport.url, chain.id);
 }
 
 /** Hook to convert a viem Client to an ethers.js Provider. */
