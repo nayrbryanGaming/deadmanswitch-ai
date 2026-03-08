@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { ethers } from 'ethers';
 import { useEthersProvider } from '@/lib/hooks/useEthersProvider';
 import { getContract } from '@/lib/contract';
@@ -34,7 +34,7 @@ export const VaultStatus = () => {
     const [status, setStatus] = useState<VaultData | 'ERROR' | null>(null);
     const provider = useEthersProvider();
 
-    const fetchStatus = async () => {
+    const fetchStatus = useCallback(async () => {
         if (!provider) return;
         try {
             const contract = await getContract(provider);
@@ -51,13 +51,13 @@ export const VaultStatus = () => {
             console.error("Failed to fetch status. Ensure the contract is deployed to the correct address.", error);
             setStatus("ERROR");
         }
-    };
+    }, [provider]);
 
     useEffect(() => {
         fetchStatus();
         const interval = setInterval(fetchStatus, 10000); // Update every 10s
         return () => clearInterval(interval);
-    }, [provider]);
+    }, [fetchStatus]);
 
     if (status === "ERROR") return (
         <div className="bg-red-900/20 rounded-2xl p-4 border border-red-500/50">
@@ -98,7 +98,7 @@ export const VaultStatus = () => {
                 </div>
                 <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
                     <span className="text-gray-400 text-xs">Last Active</span>
-                    <span className="text-white text-xs">{new Date(status.lastPing * 1000).toLocaleTimeString()}</span>
+                    <span className="text-white text-xs">{new Date(status.lastPing * 1000).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between items-center border-b border-white/10 pb-1.5">
                     <span className="text-gray-400 text-xs">Threshold</span>

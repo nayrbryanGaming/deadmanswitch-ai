@@ -46,8 +46,8 @@ export const PingAlive = () => {
                     loading || !isConnected || isWrongChain ? 'bg-gray-600 cursor-not-allowed' : 'bg-purple-600 hover:scale-105 active:scale-95'
                 }`}
             >
-                <span className={loading ? '' : (!isConnected || isWrongChain ? '' : 'animate-pulse')}>
-                    {loading ? 'Pinging...' : !isConnected ? 'Connect\nWallet' : isWrongChain ? 'Wrong\nNet' : "I'm ALIVE"}
+                <span className={`whitespace-pre-line leading-tight ${loading ? '' : (!isConnected || isWrongChain ? '' : 'animate-pulse')}`}>
+                    {loading ? 'Pinging...' : !isConnected ? 'Connect\nWallet' : isWrongChain ? 'Wrong\nNet' : "I'm\nALIVE"}
                 </span>
             </button>
             <p className="mt-3 text-xs text-gray-400 text-center">Click to update your last activity timestamp</p>

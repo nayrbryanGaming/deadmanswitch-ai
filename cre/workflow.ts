@@ -1,4 +1,7 @@
+import * as dotenv from "dotenv";
 import { ethers } from "ethers";
+
+dotenv.config();
 
 /**
  * DEADMANSWITCH AI – Chainlink CRE Workflow
@@ -41,4 +44,27 @@ export async function runWorkflow(contractAddress: string, providerUrl: string, 
     } catch (error) {
         console.error("Workflow failed:", error);
     }
+}
+
+// Standalone execution support
+const isMain = require.main === module || (typeof process !== 'undefined' && process.argv[1]?.includes('workflow'));
+
+if (isMain) {
+    const contractAddress = process.env.VAULT_ADDRESS || "";
+    const providerUrl = process.env.BASE_SEPOLIA_RPC_URL || process.env.SEPOLIA_RPC_URL || "http://127.0.0.1:8545";
+    const automationKey = process.env.AUTOMATION_PRIVATE_KEY || process.env.PRIVATE_KEY || "";
+
+    if (!contractAddress) {
+        console.error("Error: VAULT_ADDRESS not set in .env");
+        process.exit(1);
+    }
+    if (!automationKey) {
+        console.error("Error: AUTOMATION_PRIVATE_KEY or PRIVATE_KEY not set in .env");
+        process.exit(1);
+    }
+
+    runWorkflow(contractAddress, providerUrl, automationKey).catch((error) => {
+        console.error("Fatal workflow error:", error.message);
+        process.exit(1);
+    });
 }

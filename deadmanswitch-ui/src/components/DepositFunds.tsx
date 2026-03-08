@@ -17,17 +17,18 @@ export const DepositFunds = () => {
     const isWrongChain = isConnected && chainId !== BASE_SEPOLIA_ID;
 
     const handleDeposit = async () => {
-        if (!signer || !amount) return;
+        if (!signer) return;
 
-        if (parseFloat(amount) <= 0) {
-            alert("Please enter an amount greater than 0.");
+        const parsedAmount = parseFloat(amount);
+        if (!amount || isNaN(parsedAmount) || parsedAmount <= 0) {
+            alert("Please enter a valid ETH amount greater than 0.");
             return;
         }
 
         setLoading(true);
         try {
             const contract = await getContract(signer);
-            const tx = await contract.deposit({ value: ethers.parseEther(amount) });
+            const tx = await contract.deposit({ value: ethers.parseEther(parsedAmount.toString()) });
             console.log("Depositing funds...", tx.hash);
             await tx.wait();
             alert(`Deposited ${amount} ETH successfully!`);

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx hardhat compile",
+    "deploy:baseSepolia": "npx hardhat run scripts/deploy.ts --network baseSepolia",
     "deploy:sepolia": "npx hardhat run scripts/deploy.ts --network sepolia",
     "deploy:local": "npx hardhat run scripts/deploy.ts --network hardhat",
     "simulate": "npx ts-node src/monitor.ts",
