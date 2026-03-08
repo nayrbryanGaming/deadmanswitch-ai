@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 
-export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_VAULT_ADDRESS || '0x7aD44599A09656D0430D939510c1991A85d8fb73';
+export const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_VAULT_ADDRESS || '0x7aD44599A09656D0430D939510c1991A85d8fb73').trim();
 
 export const CONTRACT_ABI = [
     "function owner() view returns (address)",
